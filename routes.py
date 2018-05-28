@@ -1,7 +1,6 @@
 import requests
 import HTML
 from bs4 import BeautifulSoup
-import time
 
 html_twilio = open("templates/twilio.html", "w")
 html_yext = open("templates/yext.html", "w")
@@ -30,7 +29,6 @@ def fill( p_url, p_name, h_file):
     code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
     h_file.write(code)
 
-
 def bnb():
     data = []
     arr = ['engineering','data-science-analytics','finance-accounting','business-development','customer-experience','design','employee-experience', 'information-technology', 'legal', 'localization','luxury-retreats', 'magical-trips', 'marketing-communications', 'operations', 'photography','product', 'public-policy', 'research', 'samara', 'talent', 'the-art-department', 'trust-and-safety', 'other']
@@ -55,7 +53,6 @@ def bnb():
                 continue
     code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
     html_airbnb.write(code)
-
 
 from flask import Flask, render_template
 app = Flask(__name__)
