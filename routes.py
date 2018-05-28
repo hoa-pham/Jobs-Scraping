@@ -19,7 +19,7 @@ def fill( p_url, p_name, h_file):
         row = []
         for j in range(0, 3):
             if j == 0:
-                sec[i].a['href'] = sec[i].a['href'].replace(str(sec[i].a.get('href')), green_house_link + str(sec[i].a.get('href')))
+                sec[i].a['href'] = green_house_link + sec[i].a.get('href')
                 row.append(sec[i].a)
             elif j == 1:
                 row.append(p_name)
@@ -41,10 +41,9 @@ def bnb():
             continue
         res = soup.table.tbody.find_all('a')
         for i in range(0, len(res)):
-            lst = res[i].get('href').split('/')
-            if lst[2] == 'departments':
+            if res[i].get('href')[9] == 'd':
                 row = [] 
-                res[i]['href'] = res[i]['href'].replace(str(res[i].get('href')), bnb_link + str(res[i].get('href')))
+                res[i]['href'] = bnb_link + res[i].get('href')
                 row.append(res[i])
                 row.append('Airbnb')
             else:
