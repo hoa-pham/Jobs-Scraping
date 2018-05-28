@@ -1,6 +1,7 @@
 import requests
 import HTML
 from bs4 import BeautifulSoup
+import time
 
 html_twilio = open("templates/twilio.html", "w")
 html_yext = open("templates/yext.html", "w")
@@ -9,14 +10,12 @@ green_house_link = 'https://boards.greenhouse.io'
 bnb_link = 'https://www.airbnb.com'
 url_twilio = green_house_link + '/twilio/'
 url_yext = green_house_link + '/yext/'
-yext_page = requests.get(url_yext)
-twilio_page = requests.get(url_twilio)
 
-def fill(pages, name, h_file):
-    page = pages.text
+def fill( p_url, p_name, h_file):
+    page = requests.get(p_url).text
     soup = BeautifulSoup(page, 'html.parser')
     sec = soup.find_all(lambda tag: tag.name == 'div' and tag.get('class') == ['opening'])
-    data_twilio = []
+    data = []
     for i in range(0, len(sec)):
         row = []
         for j in range(0, 3):
@@ -24,12 +23,13 @@ def fill(pages, name, h_file):
                 sec[i].a['href'] = sec[i].a['href'].replace(str(sec[i].a.get('href')), green_house_link + str(sec[i].a.get('href')))
                 row.append(sec[i].a)
             elif j == 1:
-                row.append(name)
+                row.append(p_name)
             else:
                 row.append(sec[i].span)
-        data_twilio.append(row)
-    code = HTML.table(data_twilio, header_row=['Title', 'Company', 'Location'])
+        data.append(row)
+    code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
     h_file.write(code)
+
 
 def bnb():
     data = []
@@ -56,6 +56,7 @@ def bnb():
     code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
     html_airbnb.write(code)
 
+
 from flask import Flask, render_template
 app = Flask(__name__)
 
@@ -65,12 +66,12 @@ def index():
 
 @app.route("/twilio")
 def twilio():
-    fill(twilio_page, 'Twilio', html_twilio) 
+    fill(url_twilio, 'Twilio', html_twilio) 
     return render_template("twilio.html")
 
 @app.route("/yext")
 def yext():
-    fill(yext_page, 'Yext', html_yext)
+    fill(url_yext, 'Yext', html_yext)
     return render_template("yext.html")
 
 @app.route("/airbnb")
