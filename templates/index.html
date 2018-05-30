@@ -1,8 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h1>Welcome to my job search website!</h1>
-  <h2>Here is the list of your dream companies:</h2>
-  <p><a href="{{ url_for('twilio') }}"> Twilio</a></p>
-  <p><a href="{{ url_for('airbnb') }}"> Airbnb</a></p>
-  <p><a href="{{ url_for('yext') }}"> Yext</a></p>
+<div id="demo" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#demo" data-slide-to="0" class="active"></li>
+      <li data-target="#demo" data-slide-to="1"></li>
+      <li data-target="#demo" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+          <a href="{{ url_for('yext') }}"><img src="../static/img/yext.jpg" alt="Yext" style="width:100%;"></a>
+      </div>
+
+        <div class="carousel-item">
+          <a href="{{ url_for('airbnb') }}"><img src="../static/img/airbnb3.jpg" alt="Airbnb" style="width:100%;"></a>
+        </div>
+
+        <div class="carousel-item">
+          <a href="{{ url_for('twilio') }}"><img src="../static/img/twilio2.png" alt="Twilio" style="width:100%;"></a>
+        </div>
+    
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>  
+</div>
 {% endblock %}

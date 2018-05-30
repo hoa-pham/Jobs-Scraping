@@ -54,7 +54,7 @@ def bnb(p_url):
                 continue
     return HTML.table(data, header_row=['Title', 'Company', 'Location'])
 
-def w_f(p_url, p_name, p_html):
+def write_f(p_url, p_name, p_html):
     p_html.seek(0)
     p_html.truncate()
     p_html.write(""" {%extends "layout.html" %}\n{% block content %}\n""")
@@ -72,17 +72,17 @@ def index():
 
 @app.route("/twilio")
 def twilio():
-    w_f(url_twilio, 'Twilio', html_twilio) 
+    write_f(url_twilio, 'Twilio', html_twilio) 
     return render_template("twilio.html")
 
 @app.route("/yext")
 def yext():
-    w_f(url_yext, 'Yext', html_yext)
+    write_f(url_yext, 'Yext', html_yext)
     return render_template("yext.html")
 
 @app.route("/airbnb")
 def airbnb():
-    w_f(url_airbnb, 'Airbnb', html_airbnb) 
+    write_f(url_airbnb, 'Airbnb', html_airbnb) 
     return render_template("airbnb.html")
 
 if __name__ == "__main__":
