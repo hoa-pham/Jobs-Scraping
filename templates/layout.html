@@ -7,13 +7,21 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href = "../static/css/main.css" rel="stylesheet">
 </head>
 <body>
-	<div class="container">
+	<div class="container-fluid">
+  <nav class="navbar navbar-expand-sm bg-danger navbar-dark">
+    <ul class="navbar-nav">
+      <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+      <a class="nav-link" href="{{ url_for('twilio') }}">Twilio</a>
+      <a class="nav-link" href="{{ url_for('airbnb') }}">Airbnb</a>
+      <a class="nav-link" href="{{ url_for('yext') }}">Yext</a>
+    </ul>
+  </nav>
 		{% block content %}
 		{% endblock %}	
 	</div>
-	
 </body>
 </html> 
 

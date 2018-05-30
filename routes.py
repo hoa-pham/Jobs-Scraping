@@ -1,5 +1,6 @@
 import requests
 import HTML
+import sys
 from bs4 import BeautifulSoup
 
 html_twilio = open("templates/twilio.html", "w")
@@ -9,8 +10,9 @@ green_house_link = 'https://boards.greenhouse.io'
 bnb_link = 'https://www.airbnb.com'
 url_twilio = green_house_link + '/twilio/'
 url_yext = green_house_link + '/yext/'
+url_airbnb = bnb_link + '/careers/departments/' 
 
-def fill( p_url, p_name, h_file):
+def fill( p_url, p_name):
     page = requests.get(p_url).text
     soup = BeautifulSoup(page, 'html.parser')
     sec = soup.find_all(lambda tag: tag.name == 'div' and tag.get('class') == ['opening'])
@@ -27,13 +29,13 @@ def fill( p_url, p_name, h_file):
                 row.append(sec[i].span)
         data.append(row)
     code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
-    h_file.write(code)
+    return code
 
-def bnb():
+def bnb(p_url):
     data = []
     arr = ['engineering','data-science-analytics','finance-accounting','business-development','customer-experience','design','employee-experience', 'information-technology', 'legal', 'localization','luxury-retreats', 'magical-trips', 'marketing-communications', 'operations', 'photography','product', 'public-policy', 'research', 'samara', 'talent', 'the-art-department', 'trust-and-safety', 'other']
     for sub in arr:
-        url = 'https://www.airbnb.com/careers/departments/'
+        url = p_url 
         url += sub
         page = requests.get(url)
         soup = BeautifulSoup(page.text, 'html.parser')
@@ -50,8 +52,16 @@ def bnb():
                 row.append(res[i].text)
                 data.append(row)
                 continue
-    code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
-    html_airbnb.write(code)
+    return HTML.table(data, header_row=['Title', 'Company', 'Location'])
+
+def w_f(p_url, p_name, p_html):
+    p_html.seek(0)
+    p_html.truncate()
+    p_html.write(""" {%extends "layout.html" %}\n{% block content %}\n""")
+    if p_name == 'Airbnb':
+        p_html.write(bnb(p_url) + '\n' + "{% endblock %}")
+    else:
+        p_html.write(fill(p_url, p_name) + '\n' + "{% endblock %}")
 
 from flask import Flask, render_template
 app = Flask(__name__)
@@ -62,17 +72,17 @@ def index():
 
 @app.route("/twilio")
 def twilio():
-    fill(url_twilio, 'Twilio', html_twilio) 
+    w_f(url_twilio, 'Twilio', html_twilio) 
     return render_template("twilio.html")
 
 @app.route("/yext")
 def yext():
-    fill(url_yext, 'Yext', html_yext)
+    w_f(url_yext, 'Yext', html_yext)
     return render_template("yext.html")
 
 @app.route("/airbnb")
 def airbnb():
-    bnb()
+    w_f(url_airbnb, 'Airbnb', html_airbnb) 
     return render_template("airbnb.html")
 
 if __name__ == "__main__":
