@@ -28,8 +28,7 @@ def fill( p_url, p_name):
             else:
                 row.append(sec[i].span)
         data.append(row)
-    code = HTML.table(data, header_row=['Title', 'Company', 'Location'])
-    return code
+    return HTML.table(data, header_row=['Title', 'Company', 'Location'])
 
 def bnb(p_url):
     data = []
