@@ -1,0 +1,6 @@
+venv/
+Procfile/
+requirement.txt
+__pycache__/
+README.md
+
